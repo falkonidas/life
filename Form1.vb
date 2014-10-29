@@ -8,7 +8,7 @@ Public Class Form1
     Public picbox_click_state As click_states
 
     Public interpolation As Boolean
-    Dim path As String = "C:\test"
+    Dim path As String = "C:\patterns"
 
     Dim imagelist As New ImageList
 
@@ -82,6 +82,11 @@ Public Class Form1
     Private Sub Form1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         board.fill_board()
         interpolation = False
+
+        If (Not System.IO.Directory.Exists(path)) Then
+            System.IO.Directory.CreateDirectory(path)
+        End If
+
         ListDirectory(TreeView1, path)
         imagelist.Images.Add(My.Resources.tree_icons.grid)
         imagelist.Images.Add(My.Resources.tree_icons.folder)
@@ -243,7 +248,7 @@ Public Class Form1
     Private Sub TreeView1_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView1.AfterSelect
 
         If e.Action = TreeViewAction.ByMouse Then
-            If e.Node.Text.Equals("test") = False Then
+            If e.Node.Text.Equals("patterns") = False Then
                 board.clear_board()
                 Dim TreeNodeName As String = TreeView1.SelectedNode.ToString.Replace("TreeNode: ", String.Empty)
                 converter.openfromtree(path + "\" + TreeNodeName, board)
