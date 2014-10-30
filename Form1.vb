@@ -31,7 +31,6 @@ Public Class Form1
                 cell_pos.Y = ((pic_pos.Y - board.cellsize_unit / 2) / board.cellsize_unit) + 1
                 If cell_pos.X < board.board_width And cell_pos.Y < board.board_height Then
                     If e.Button = MouseButtons.Left Then
-
                         If last_cell_pos <> cell_pos Then
                             If interpolation = True Then filler.get_pos(cell_pos, pic_pos)
                         End If
@@ -160,10 +159,12 @@ Public Class Form1
 
     Private Sub Button7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button7.Click
         zoom_board()
+        control_zoom()
     End Sub
 
     Private Sub Button8_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button8.Click
         unzoom_board()
+        control_zoom()
     End Sub
 
     Public Sub paint_controls() ' Handles Me.Load, Button5.Click, Button6.Click
@@ -178,7 +179,7 @@ Public Class Form1
         End If
     End Sub
 
-    Public Sub control_zoom() Handles Button7.Click, Button8.Click
+    Public Sub control_zoom()
         If board.cellsize_unit = 1 Then
             Button7.Enabled = False
         Else
@@ -205,8 +206,10 @@ Public Class Form1
     End Sub
 
     Private Sub Button11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button11.Click
-        board.redim_board(TextBox4.Text, TextBox3.Text)
-        PictureBox1.Refresh()
+        If textboxvaliator(TextBox4.Text) = True And textboxvaliator(TextBox3.Text) = True Then
+            board.redim_board(TextBox4.Text, TextBox3.Text)
+            PictureBox1.Refresh()
+        End If
     End Sub
 
     Private Sub SplitContainer1_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles SplitContainer1.MouseClick

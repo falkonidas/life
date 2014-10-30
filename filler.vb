@@ -30,10 +30,9 @@
 
         two_cell_pos.Clear()
         Try
-            two_cell_pos(0) = lastpos
+            two_cell_pos.Add(lastpos)
         Catch ex As Exception
 
         End Try
-
     End Sub
 End Class

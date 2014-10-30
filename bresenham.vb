@@ -1,12 +1,10 @@
-﻿' Author: Jason Morley (Source: http://www.morleydev.co.uk/blog/2010/11/18/generic-bresenhams-line-algorithm-in-visual-basic-net/
+﻿
 Module BresenhamsLineAlgorithm
     Sub Swap(ByRef X As Long, ByRef Y As Long)
         Dim t As Long = X
         X = Y
         Y = t
     End Sub
-    ' If the plot function returns true, the bresenham's line algorithm continues.
-    ' if the plot function returns false, the algorithm stops
     Delegate Function PlotFunction(ByVal x As Long, ByVal y As Long) As Boolean
        Sub Bresenham(ByVal x1 As Long, ByVal y1 As Long, ByVal x2 As Long, ByVal y2 As Long, ByVal plot As PlotFunction)
         Dim steep As Boolean = (Math.Abs(y2 - y1) > Math.Abs(x2 - x1))
