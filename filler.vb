@@ -16,11 +16,11 @@
 
         If startCellPos <> endCellPos Then
             Bresenham(startCellPos.X, startCellPos.Y, endCellPos.X, endCellPos.Y, New PlotFunction(AddressOf plot))
-            Me.clear_lists()
+            Me.clearAndPushPoint()
 
         End If
     End Sub
-    Public Sub clear_lists()
+    Public Sub clearAndPushPoint()
         Dim lastpos As New Point
         Try
             lastpos = two_cell_pos(1)
@@ -34,5 +34,8 @@
         Catch ex As Exception
 
         End Try
+    End Sub
+    Public Sub clear()
+        two_cell_pos.Clear()
     End Sub
 End Class

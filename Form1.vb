@@ -71,7 +71,7 @@ Public Class Form1
     End Sub
 
     Private Sub PictureBox1_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox1.MouseUp
-        If interpolation = True Then filler.clear_lists()
+        If interpolation = True Then filler.clear()
     End Sub
 
     Private Sub PictureBox1_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles PictureBox1.Paint
