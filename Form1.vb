@@ -281,7 +281,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button12_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button12.Click
-        board.gen_count = 0
+        board.nullGenCount()
         board.count_gen_alive()
     End Sub
 
@@ -302,4 +302,5 @@ Public Class Form1
         End If
         Return answer
     End Function
+
 End Class

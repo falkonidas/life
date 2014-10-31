@@ -3,9 +3,9 @@
     Public cell_size As New Size(cellsize_unit, cellsize_unit)
     Public board_width As Integer = 300
     Public board_height As Integer = 150
-    Public board(board_width, board_height) As Boolean
+    Private board(board_width, board_height) As Boolean
     Private nextgen_board(board_width, board_height)
-    Public gen_count As Integer
+    Private gen_count As Integer
 
     Public Sub redim_board(ByVal board_width, ByVal board_height)
         Me.board_width = board_width
@@ -40,6 +40,10 @@
     Public Sub setCell(ByVal x, ByVal y, ByVal state)
         Me.board(x, y) = state
     End Sub
+
+    Public Function getCellState(ByVal x, ByVal y)
+        Return board(x, y)
+    End Function
 
     Public Sub setCellsFromList(ByVal list)
         For Each cell In list
@@ -118,5 +122,9 @@
         Next
         Form1.Label3.Text = "alive: " & counter
         Form1.Label2.Text = "generation: " & gen_count
+    End Sub
+
+    Public Sub nullGenCount()
+        gen_count = 0
     End Sub
 End Class

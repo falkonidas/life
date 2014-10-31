@@ -49,7 +49,6 @@ Partial Class Form1
         Me.Label2 = New System.Windows.Forms.Label()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeView1 = New System.Windows.Forms.TreeView()
-        Me.TextBox5 = New System.Windows.Forms.TextBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -290,7 +289,6 @@ Partial Class Form1
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TextBox5)
         Me.SplitContainer1.Panel1.Controls.Add(Me.TreeView1)
         '
         'SplitContainer1.Panel2
@@ -309,14 +307,6 @@ Partial Class Form1
         Me.TreeView1.Size = New System.Drawing.Size(156, 344)
         Me.TreeView1.TabIndex = 0
         '
-        'TextBox5
-        '
-        Me.TextBox5.Location = New System.Drawing.Point(24, 129)
-        Me.TextBox5.Multiline = True
-        Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(134, 128)
-        Me.TextBox5.TabIndex = 1
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -332,7 +322,6 @@ Partial Class Form1
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
@@ -365,5 +354,4 @@ Partial Class Form1
     Friend WithEvents TreeView1 As System.Windows.Forms.TreeView
     Friend WithEvents Button12 As System.Windows.Forms.Button
     Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
-    Friend WithEvents TextBox5 As System.Windows.Forms.TextBox
 End Class

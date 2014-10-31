@@ -6,7 +6,7 @@ Public Class converter
     Public Sub cells_to_list(ByVal board As board)
         For x = 1 To board.board_width - 1
             For y = 1 To board.board_height - 1
-                If board.board(x, y) = True Then
+                If board.getCellState(x, y) = True Then
                     list_alive.Add(New Point(x, y))
                 End If
             Next
@@ -16,7 +16,7 @@ Public Class converter
     Public Sub cells_to_board(ByVal board)
         board.clear_board()
         For Each p In list_alive
-            board.board(p.X, p.Y) = True
+            board.setCell(p.X, p.Y, True)
         Next
     End Sub
 
