@@ -37,6 +37,15 @@
         count_gen_alive()
         Form1.PictureBox1.Refresh()
     End Sub
+    Public Sub setCell(ByVal x, ByVal y, ByVal state)
+        Me.board(x, y) = state
+    End Sub
+
+    Public Sub setCellsFromList(ByVal list)
+        For Each cell In list
+            Me.board(cell.x, cell.y) = True
+        Next
+    End Sub
 
     Public Sub draw_board(ByVal e As System.Windows.Forms.PaintEventArgs)
 

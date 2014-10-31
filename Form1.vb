@@ -34,10 +34,10 @@ Public Class Form1
                         If last_cell_pos <> cell_pos Then
                             If interpolation = True Then filler.get_pos(cell_pos, pic_pos)
                         End If
-                        board.board(cell_pos.X, cell_pos.Y) = True
+                        board.setCell(cell_pos.X, cell_pos.Y, True)
                     End If
 
-                    If e.Button = MouseButtons.Right Then board.board(cell_pos.X, cell_pos.Y) = False
+                    If e.Button = MouseButtons.Right Then board.setCell(cell_pos.X, cell_pos.Y, False)
                     board.count_gen_alive()
 
                 End If

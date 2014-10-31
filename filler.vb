@@ -1,6 +1,5 @@
 ﻿Public Class filler
     Private two_cell_pos As New List(Of Point)
-
     Private Event twoPointsReached()
     Private midpoint As Point
     Public Sub get_pos(ByVal cell_pos, ByVal pic_pos)
@@ -9,18 +8,17 @@
             RaiseEvent twoPointsReached()
         End If
     End Sub
-    Public Sub get_line() Handles Me.twoPointsReached
+    Private Sub get_line() Handles Me.twoPointsReached
 
         Dim startCellPos = two_cell_pos(0)
         Dim endCellPos = two_cell_pos(1)
 
         If startCellPos <> endCellPos Then
-            Bresenham(startCellPos.X, startCellPos.Y, endCellPos.X, endCellPos.Y, New PlotFunction(AddressOf plot))
+            Dim bre As New BresenhamsLineAlgorithm(startCellPos.X, startCellPos.Y, endCellPos.X, endCellPos.Y)
             Me.clearAndPushPoint()
-
         End If
     End Sub
-    Public Sub clearAndPushPoint()
+    Private Sub clearAndPushPoint()
         Dim lastpos As New Point
         Try
             lastpos = two_cell_pos(1)
