@@ -20,18 +20,9 @@
     End Sub
     Private Sub clearAndPushPoint()
         Dim lastpos As New Point
-        Try
-            lastpos = two_cell_pos(1)
-        Catch ex As Exception
-
-        End Try
-
+        lastpos = two_cell_pos(1)
         two_cell_pos.Clear()
-        Try
-            two_cell_pos.Add(lastpos)
-        Catch ex As Exception
-
-        End Try
+        two_cell_pos.Add(lastpos)
     End Sub
     Public Sub clear()
         two_cell_pos.Clear()

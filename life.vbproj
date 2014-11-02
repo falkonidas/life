@@ -72,8 +72,11 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="limiter.vb" />
+    <Compile Include="oldBoard.vb" />
     <Compile Include="board.vb" />
     <Compile Include="bresenham.vb" />
+    <Compile Include="cell.vb" />
     <Compile Include="converter.vb" />
     <Compile Include="filler.vb" />
     <Compile Include="Form1.vb">

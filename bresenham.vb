@@ -8,6 +8,8 @@
     Private Delegate Function PlotFunction(ByVal x As Long, ByVal y As Long) As Boolean
     Sub New(ByVal x1 As Long, ByVal y1 As Long, ByVal x2 As Long, ByVal y2 As Long)
         Bresenham(x1, y1, x2, y2, New PlotFunction(AddressOf plot))
+        'Form1.board.setCellsFromList(cellPosList)
+        cellPosList.Clear()
     End Sub
     Private Sub Bresenham(ByVal x1 As Long, ByVal y1 As Long, ByVal x2 As Long, ByVal y2 As Long, ByVal plot As PlotFunction)
         Dim steep As Boolean = (Math.Abs(y2 - y1) > Math.Abs(x2 - x1))
@@ -39,12 +41,10 @@
                 err = err + deltaX
             End If
         Next
-
-        Form1.board.setCellsFromList(cellPosList)
-        cellPosList.Clear()
     End Sub
     Private Function plot(ByVal x As Long, ByVal y As Long) As Boolean
-        cellPosList.Add(New Point(x, y))
+        'cellPosList.Add(New Point(x, y))
+        Form1.board.cells2dArray(x, y).setCellState(True, Form1.limiter)
         Return True
     End Function
 End Class

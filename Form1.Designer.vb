@@ -59,6 +59,7 @@ Partial Class Form1
         '
         'PictureBox1
         '
+        Me.PictureBox1.BackColor = System.Drawing.Color.White
         Me.PictureBox1.Location = New System.Drawing.Point(0, 0)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(696, 334)
@@ -296,7 +297,7 @@ Partial Class Form1
         Me.SplitContainer1.Panel2.AutoScroll = True
         Me.SplitContainer1.Panel2.Controls.Add(Me.PictureBox1)
         Me.SplitContainer1.Size = New System.Drawing.Size(877, 348)
-        Me.SplitContainer1.SplitterDistance = 160
+        Me.SplitContainer1.SplitterDistance = 101
         Me.SplitContainer1.TabIndex = 9
         '
         'TreeView1
@@ -304,7 +305,7 @@ Partial Class Form1
         Me.TreeView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TreeView1.Location = New System.Drawing.Point(0, 0)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(156, 344)
+        Me.TreeView1.Size = New System.Drawing.Size(97, 344)
         Me.TreeView1.TabIndex = 0
         '
         'Form1

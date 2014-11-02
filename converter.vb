@@ -6,9 +6,9 @@ Public Class converter
     Public Sub cells_to_list(ByVal board As board)
         For x = 1 To board.board_width - 1
             For y = 1 To board.board_height - 1
-                If board.getCellState(x, y) = True Then
-                    list_alive.Add(New Point(x, y))
-                End If
+                'If board.getCellState(x, y) = True Then
+                'list_alive.Add(New Point(x, y))
+                'End If
             Next
         Next
     End Sub
@@ -24,7 +24,6 @@ Public Class converter
         list_alive.Clear()
         Dim myStream As FileStream = File.Open(filename, FileMode.Open)
         Try
-
             If (myStream IsNot Nothing) Then
 
                 Dim xmldoc As New XmlDataDocument()
@@ -60,7 +59,7 @@ Public Class converter
         With ofd
             .Title = "otwórz plik"
             .Filter = "cellmap (*.cm)|*.cm"
-            .InitialDirectory = "c:\"
+            .InitialDirectory = "c:\patterns"
             .RestoreDirectory = True
         End With
 
