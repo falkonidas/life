@@ -1,8 +1,12 @@
 ﻿Public Class board
-    Public board_width As Integer = 777
-    Public board_height As Integer = 777
+    Public board_width As Integer = 400
+    Public board_height As Integer = 400
     Public cells2dArray(board_width, board_height) As cell
+    Public genCount As Integer
+    Public cellsAliveCount As Integer
+    Public Event cellsArrayDimChanged()
     Sub New()
+
         fillBoard()
     End Sub
     Public Sub fillBoard()
@@ -18,14 +22,37 @@
         Next
     End Sub
 
+    Public Sub drawGrid(ByVal e)
+
+        For i = 0 To board_width
+            e.Graphics.DrawLine(Pens.Red, 0 + cell.size_unit * i, 0, 0 + cell.size_unit * i, board_height * cell.size_unit)
+        Next i
+
+        For i = 0 To board_height
+            e.Graphics.DrawLine(Pens.Red, 0, 0 + cell.size_unit * i, board_width * cell.size_unit, 0 + cell.size_unit * i)
+        Next i
+    End Sub
+
     Public Sub killAllCells(ByVal limiter)
+        'For Each cell In cells2dArray
+        '    cell.setCellState(False, limiter)
+        '    cell.setNextGenState(False)
+        'Next
         For x = 0 To board_width
             For y = 0 To board_height
                 cells2dArray(x, y).setCellState(False, limiter)
                 cells2dArray(x, y).setNextGenState(False)
             Next
         Next
+        limiter.clearBothSets()
+    End Sub
 
+    Public Sub redimBoard(ByVal board_width, ByVal board_height, ByVal limiter)
+        killAllCells(limiter)
+        Me.board_width = board_width
+        Me.board_height = board_height
+        Dim cells2dArray(board_width, board_height) As cell
+        RaiseEvent cellsArrayDimChanged()
     End Sub
 
     Public Sub nextGen(ByVal limiter) 'setCellsNextGenState()
@@ -75,11 +102,17 @@
         Next
 
         limiter.updateCellsPosAndBorder()
-        'gen_count += 1
 
+        increaseGenCount()
     End Sub
 
-    Public Sub countAliveCells()
+    Public Sub countAliveCells(ByVal limiter)
+        For Each pos In limiter.cellsPosAndBorder
+            If cells2dArray(pos.x, pos.y).getCellState = True Then cellsAliveCount += 1
+        Next
+    End Sub
 
+    Public Sub increaseGenCount()
+        genCount += 1
     End Sub
 End Class

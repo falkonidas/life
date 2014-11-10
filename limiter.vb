@@ -34,6 +34,11 @@
         cellsPos.Clear()
     End Sub
 
+    Public Sub clearBothSets()
+        cellsPos.Clear()
+        cellsPosAndBorder.Clear()
+    End Sub
+
     Public Sub addCellsPos(ByVal x, ByVal y)
         cellsPos.Add(New Point(x, y))
     End Sub

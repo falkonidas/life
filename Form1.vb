@@ -7,7 +7,6 @@ Public Class Form1
     End Enum
     Public picbox_click_state As click_states
 
-    Public interpolation As Boolean
     Dim path As String = "C:\patterns"
 
     Dim imagelist As New ImageList
@@ -18,7 +17,7 @@ Public Class Form1
 
     Public m_PanStartPoint As Point
 
-    Public board As New board
+    Public WithEvents board As New board
     'Public oldBoard As New oldBoard
     Public converter As New converter
     Public filler As New filler
@@ -35,18 +34,14 @@ Public Class Form1
                 If cell_pos.X < board.board_width And cell_pos.Y < board.board_height Then
                     If e.Button = MouseButtons.Left Then
                         If last_cell_pos <> cell_pos Then
-                            If interpolation = True Then filler.get_pos(cell_pos, pic_pos)
+                            filler.get_pos(cell_pos, pic_pos)
                         End If
                         board.cells2dArray(cell_pos.X, cell_pos.Y).setCellState(True, limiter)
-
                     End If
-
                     If e.Button = MouseButtons.Right Then
                         board.cells2dArray(cell_pos.X, cell_pos.Y).setCellState(False, limiter)
                     End If
-
                     'board.countAliveCells() TODO
-
                 End If
             Catch ex As Exception
 
@@ -70,7 +65,7 @@ Public Class Form1
 
     Private Sub PictureBox1_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox1.MouseDown
         If picbox_click_state = click_states.draw Then
-            If interpolation = True Then filler.get_pos(cell_pos, pic_pos)
+            filler.get_pos(cell_pos, pic_pos)
             PictureBox1_MouseMove(sender, e)
         ElseIf picbox_click_state = click_states.move Then
             m_PanStartPoint = New Point(e.X, e.Y)
@@ -78,43 +73,28 @@ Public Class Form1
     End Sub
 
     Private Sub PictureBox1_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PictureBox1.MouseUp
-        If interpolation = True Then filler.clear()
+        filler.clear()
     End Sub
 
     Private Sub PictureBox1_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles PictureBox1.Paint
         board.drawBoard(e)
-    End Sub
-
-    Private Sub PictureBox2_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs)
-        For Each pos In limiter.cellsPosAndBorder
-            Dim cellLocation As Point = New Point(pos.X * 8 - 8, pos.Y * 8 - 8)
-            Dim cell_size As New Size(8, 8)
-            Dim cell As Rectangle = New Rectangle(cellLocation, cell_size)
-
-            Using cellBrush As SolidBrush = New SolidBrush(Color.FromArgb(35, 78, 45))
-                'Graphics.FillRectangle(cellBrush, cell)
-                e.Graphics.FillRectangle(cellBrush, cell)
-            End Using
-        Next
-
+        If CheckBox1.Checked Then board.drawGrid(e)
     End Sub
 
     Private Sub Form1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        board.fillBoard()
-        interpolation = False
-
         If (Not System.IO.Directory.Exists(path)) Then
             System.IO.Directory.CreateDirectory(path)
         End If
-
         ListDirectory(TreeView1, path)
+
         imagelist.Images.Add(My.Resources.tree_icons.grid)
         imagelist.Images.Add(My.Resources.tree_icons.folder)
         imagelist.Images.Add(My.Resources.tree_icons._error)
 
         Me.TreeView1.ImageList = imagelist
         paint_controls()
-        board.countAliveCells()
+
+        board.countAliveCells(limiter)
         PictureBox1.Location = New Point(0, 0)
         PictureBox1.Width = board.board_width * cell.size_unit - cell.size_unit
         PictureBox1.Height = board.board_height * cell.size_unit - cell.size_unit
@@ -124,7 +104,7 @@ Public Class Form1
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         board.nextGen(limiter)
-        board.countAliveCells()
+        board.countAliveCells(limiter)
         PictureBox1.Refresh()
     End Sub
 
@@ -134,7 +114,7 @@ Public Class Form1
             For i = 0 To Int(TextBox1.Text) - 1
                 board.nextGen(limiter)
             Next
-            board.countAliveCells()
+            board.countAliveCells(limiter)
             PictureBox1.Refresh()
             Windows.Forms.Cursor.Current = Cursors.Default
         End If
@@ -152,7 +132,7 @@ Public Class Form1
         'board.count_gen_alive()
 
         board.nextGen(limiter)
-        board.countAliveCells()
+        board.countAliveCells(limiter)
 
         PictureBox1.Refresh()
     End Sub
@@ -184,16 +164,16 @@ Public Class Form1
     End Sub
 
     Private Sub Button7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button7.Click
-        unzoom_board()
+        cell.scaleCells("/")
         control_zoom()
     End Sub
 
     Private Sub Button8_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button8.Click
-        zoom_board()
+        cell.scaleCells("*")
         control_zoom()
     End Sub
 
-    Public Sub paint_controls() ' Handles Me.Load, Button5.Click, Button6.Click
+    Private Sub paint_controls()
         If picbox_click_state = click_states.draw Then
             Button5.BackColor = Color.Aqua
             Button6.BackColor = SystemColors.Control
@@ -205,14 +185,16 @@ Public Class Form1
         End If
     End Sub
 
-    Public Sub control_zoom()
-        If cell.size_unit = 1 Then
+    Private Sub control_zoom()
+        pictureboxResize()
+        PictureBox1.Refresh()
+        If cell.size_unit = 2 Then
             Button7.Enabled = False
         Else
             Button7.Enabled = True
         End If
 
-        If cell.size_unit = 32 Then
+        If cell.size_unit = 16 Then
             Button8.Enabled = False
         Else
             Button8.Enabled = True
@@ -233,7 +215,7 @@ Public Class Form1
 
     Private Sub Button11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button11.Click
         If textboxvaliator(TextBox4.Text) = True And textboxvaliator(TextBox3.Text) = True Then
-            'board.redim_board(TextBox3.Text, TextBox4.Text)
+            board.redimBoard(TextBox3.Text, TextBox4.Text, limiter)
             PictureBox1.Refresh()
         End If
     End Sub
@@ -290,35 +272,15 @@ Public Class Form1
 
     End Sub
 
-    Private Sub unzoom_board()
-        cell.size_unit /= 2
-        cell.cell_size = New Size(cell.size_unit, cell.size_unit)
-        PictureBox1.Width = board.board_width * cell.size_unit - cell.size_unit
-        PictureBox1.Height = board.board_height * cell.size_unit - cell.size_unit
-        PictureBox1.Refresh()
-    End Sub
-
-    Private Sub zoom_board()
-        cell.size_unit *= 2
-        cell.cell_size = New Size(cell.size_unit, cell.size_unit)
-        PictureBox1.Width = board.board_width * cell.size_unit - cell.size_unit
-        PictureBox1.Height = board.board_height * cell.size_unit - cell.size_unit
-        PictureBox1.Refresh()
-    End Sub
-
     Private Sub Button12_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button12.Click
         'board.nullGenCount
         'board.count_gen_alive()
     End Sub
 
-    Private Sub CheckBox1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox1.CheckedChanged
-        interpolation = CheckBox1.Checked
-    End Sub
-
     Private Function textboxvaliator(ByVal text)
         Dim answer As Boolean
         If IsNumeric(text) Then
-            If Int(text) < 1 Or Int(text) > 1000 Then
+            If Int(text) < 1 Or Int(text) > 400 Then
                 answer = False
             Else
                 answer = True
@@ -328,4 +290,9 @@ Public Class Form1
         End If
         Return answer
     End Function
+
+    Private Sub pictureboxResize() Handles board.cellsArrayDimChanged
+        PictureBox1.Width = board.board_width * cell.size_unit - cell.size_unit
+        PictureBox1.Height = board.board_height * cell.size_unit - cell.size_unit
+    End Sub
 End Class
