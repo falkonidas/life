@@ -6,7 +6,6 @@
     Public cellsAliveCount As Integer
     Public Event cellsArrayDimChanged()
     Sub New()
-
         fillBoard()
     End Sub
     Public Sub fillBoard()
@@ -51,7 +50,8 @@
         killAllCells(limiter)
         Me.board_width = board_width
         Me.board_height = board_height
-        Dim cells2dArray(board_width, board_height) As cell
+        ReDim cells2dArray(Me.board_width, Me.board_height)
+        fillBoard()
         RaiseEvent cellsArrayDimChanged()
     End Sub
 

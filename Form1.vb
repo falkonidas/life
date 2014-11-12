@@ -280,7 +280,7 @@ Public Class Form1
     Private Function textboxvaliator(ByVal text)
         Dim answer As Boolean
         If IsNumeric(text) Then
-            If Int(text) < 1 Or Int(text) > 400 Then
+            If Int(text) < 1 Or Int(text) > 1000 Then
                 answer = False
             Else
                 answer = True
