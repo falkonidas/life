@@ -2,7 +2,7 @@
     Private pos As Point
     Private alive As Boolean
     Private nextGenAlive As Boolean
-    Private isBorder As Boolean
+    Public isBorder As Boolean
     Public Shared size_unit As Integer = 8
     Public Shared cell_size As New Size(size_unit, size_unit)
     Sub New(ByVal x, ByVal y)
@@ -21,7 +21,7 @@
     End Function
 
     Public Sub setCellState(ByVal state, ByVal limiter)
-        If isBorder = False Then
+        If Me.isBorder = False Then
             Me.alive = state
             If state = True Then
                 limiter.addCellPosAndBorder(Me.pos.X, Me.pos.Y)

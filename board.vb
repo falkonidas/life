@@ -12,6 +12,13 @@
         For x = 0 To board_width
             For y = 0 To board_height
                 Me.cells2dArray(x, y) = New cell(x, y)
+                Me.cells2dArray(x, y).isBorder = True
+            Next
+        Next
+
+        For x = 1 To board_width - 1
+            For y = 1 To board_height - 1
+                Me.cells2dArray(x, y).isBorder = False
             Next
         Next
     End Sub
@@ -61,19 +68,25 @@
             Dim counter As Integer = 0
             For Each i In {-1, 1}
                 For Each j In {-1, 1}
-                    If cells2dArray(pos.x + i, pos.y + j).getCellState = True Then counter += 1
+                    If cells2dArray(pos.x, pos.y).isBorder = False Then
+                        If cells2dArray(pos.x + i, pos.y + j).getCellState = True Then counter += 1
+                    End If
                 Next
             Next
 
             For Each i In {0}
                 For Each j In {-1, 1}
-                    If cells2dArray(pos.x + i, pos.y + j).getCellState = True Then counter += 1
+                    If cells2dArray(pos.x, pos.y).isBorder = False Then
+                        If cells2dArray(pos.x + i, pos.y + j).getCellState = True Then counter += 1
+                    End If
                 Next
             Next
 
             For Each i In {-1, 1}
                 For Each j In {0}
-                    If cells2dArray(pos.x + i, pos.y + j).getCellState = True Then counter += 1
+                    If cells2dArray(pos.x, pos.y).isBorder = False Then
+                        If cells2dArray(pos.x + i, pos.y + j).getCellState = True Then counter += 1
+                    End If
                 Next
             Next
 
