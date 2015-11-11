@@ -77,7 +77,6 @@
     <Compile Include="board.vb" />
     <Compile Include="bresenham.vb" />
     <Compile Include="cell.vb" />
-    <Compile Include="converter.vb" />
     <Compile Include="filler.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>

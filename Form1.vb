@@ -19,7 +19,6 @@ Public Class Form1
 
     Public WithEvents board As New board
     'Public oldBoard As New oldBoard
-    Public converter As New converter
     Public filler As New filler
     Public limiter As New limiter
 
@@ -46,7 +45,7 @@ Public Class Form1
             Catch ex As Exception
 
             End Try
-            PictureBox1.Invalidate()
+            sender.Invalidate()
 
         ElseIf picbox_click_state = click_states.move Then
 
@@ -202,17 +201,6 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button9_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button9.Click
-        converter.cells_to_list(board)
-        converter.save_to_xml(board)
-        ListDirectory(TreeView1, path)
-    End Sub
-
-    Private Sub Button10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button10.Click
-        converter.open_xml(board)
-        PictureBox1.Refresh()
-    End Sub
-
     Private Sub Button11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button11.Click
         If textboxvaliator(TextBox4.Text) = True And textboxvaliator(TextBox3.Text) = True Then
             board.redimBoard(TextBox3.Text, TextBox4.Text, limiter)
@@ -262,9 +250,9 @@ Public Class Form1
             If e.Node.Text.Equals("patterns") = False Then
                 'board.clear_board()
                 Dim TreeNodeName As String = TreeView1.SelectedNode.ToString.Replace("TreeNode: ", String.Empty)
-                converter.openfromtree(path + "\" + TreeNodeName, board)
+                'converter.openfromtree(path + "\" + TreeNodeName, board)
                 'board.fill_board()
-                converter.cells_to_board(board)
+                'converter.cells_to_board(board)
                 PictureBox1.Refresh()
             End If
 
@@ -294,5 +282,9 @@ Public Class Form1
     Private Sub pictureboxResize() Handles board.cellsArrayDimChanged
         PictureBox1.Width = board.board_width * cell.size_unit - cell.size_unit
         PictureBox1.Height = board.board_height * cell.size_unit - cell.size_unit
+    End Sub
+
+    Private Sub CheckBox1_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CheckBox1.CheckedChanged
+        PictureBox1.Refresh()
     End Sub
 End Class

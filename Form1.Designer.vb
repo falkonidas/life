@@ -273,6 +273,7 @@ Partial Class Form1
         Me.Label3.Size = New System.Drawing.Size(32, 13)
         Me.Label3.TabIndex = 9
         Me.Label3.Text = "alive:"
+        Me.Label3.Visible = False
         '
         'Label2
         '
@@ -282,6 +283,7 @@ Partial Class Form1
         Me.Label2.Size = New System.Drawing.Size(60, 13)
         Me.Label2.TabIndex = 8
         Me.Label2.Text = "generation:"
+        Me.Label2.Visible = False
         '
         'SplitContainer1
         '
@@ -321,7 +323,7 @@ Partial Class Form1
         Me.Controls.Add(Me.Panel1)
         Me.MinimumSize = New System.Drawing.Size(650, 100)
         Me.Name = "Form1"
-        Me.Text = "Form1"
+        Me.Text = "GameOfLife"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
