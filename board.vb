@@ -1,6 +1,6 @@
 ﻿Public Class board
-    Public board_width As Integer = 400
-    Public board_height As Integer = 400
+    Public board_width As Integer = 100
+    Public board_height As Integer = 100
     Public cells2dArray(board_width, board_height) As cell
     Public genCount As Integer
     Public cellsAliveCount As Integer

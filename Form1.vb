@@ -287,4 +287,85 @@ Public Class Form1
     Private Sub CheckBox1_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CheckBox1.CheckedChanged
         PictureBox1.Refresh()
     End Sub
+
+    Private Sub Button9_Click(sender As System.Object, e As System.EventArgs) Handles Button9.Click
+
+        Dim myStream As Stream
+        Dim saveFileDialog1 As New SaveFileDialog()
+
+        saveFileDialog1.Filter = "cellmap (*.cm)|*.cm"
+        saveFileDialog1.FilterIndex = 2
+        saveFileDialog1.RestoreDirectory = True
+
+        If saveFileDialog1.ShowDialog() = DialogResult.OK Then
+            myStream = saveFileDialog1.OpenFile()
+            If (myStream IsNot Nothing) Then
+                Dim writer As New StreamWriter(myStream)
+
+                writer.Write(board.board_height & Environment.NewLine)
+                writer.Write(board.board_width & Environment.NewLine)
+
+                For Each cell In board.cells2dArray
+                    writer.Write(Convert.ToInt32(cell.getCellState))
+                Next
+
+                writer.Close()
+                myStream.Close()
+            End If
+        End If
+    End Sub
+
+    Private Sub Button10_Click(sender As System.Object, e As System.EventArgs) Handles Button10.Click
+        Dim ofd As New OpenFileDialog
+        Dim myStream As Stream = Nothing
+        With ofd
+            .Title = "otwórz plik"
+            .Filter = "cellmap (*.cm)|*.cm"
+            .InitialDirectory = "c:\patterns"
+            .RestoreDirectory = True
+        End With
+
+        If ofd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            board.killAllCells(limiter)
+            Try
+                myStream = ofd.OpenFile()
+                If (myStream IsNot Nothing) Then
+                    Dim reader As New StreamReader(myStream)
+
+                    Dim line1 As Integer = reader.ReadLine()
+                    Dim line2 As Integer = reader.ReadLine()
+
+                    Dim buffer(line1 * line2) As Char
+
+                    reader.ReadBlock(buffer, 0, line1 * line2)
+
+                    Dim i = 1
+
+                    Try
+                        board.redimBoard(line1, line2, limiter)
+                        For Each cell In board.cells2dArray
+                            cell.setCellState(Convert.ToBoolean(Convert.ToInt32(buffer(i)) - 48), limiter)
+                            i += 1
+                        Next
+                    Catch ex As Exception
+
+                    End Try
+
+                End If
+
+            Catch Ex As Exception
+                MessageBox.Show("Cannot read file from disk. Original error: " & Ex.Message)
+            Finally
+                ' Check this again, since we need to make sure we didn't throw an exception on open. 
+                If (myStream IsNot Nothing) Then
+                    myStream.Close()
+
+                End If
+            End Try
+
+            'board.fill_board()
+            'cells_to_board(board)
+            PictureBox1.Refresh()
+        End If
+    End Sub
 End Class
